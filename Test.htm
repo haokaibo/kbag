@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dynamic List Editor</title>
+    <style type="text/css">
+        
+    </style>
+    <script type="text/javascript">
+        function addRow() {
+            try {
+                var tQueueList = document.getElementById("tQueueList");
+                var tbody = tQueueList.childNodes[tQueueList.childNodes.length - 1];
+                var trTemplate = tbody.childNodes[tbody.childNodes.length - 1];
+                alert(trTemplate);
+                var newTR = trTemplate.cloneNode(1);
+                //                alert(newTR.outerHTML);
+                tQueueList.lastChild.appendChild(newTR);
+            } catch (e) {
+                alert(e);
+            }
+        }
+        function removeRow(tr) {
+            try {
+                var tQueueList = document.getElementById("tQueueList");
+                if (tQueueList.lastChild.childNodes.length > 1) {
+                    tQueueList.lastChild.removeChild(tr);
+                }
+
+            } catch (e) {
+                alert(e);
+            }
+        }
+    </script>
+</head>
+<body>
+    <table style="margin: 3px 0px 1em; padding: 0px; line-height: 18px; color: rgb(114, 114, 114);
+        font-style: normal; font-weight: normal; clear: both; border-collapse: separate;
+        border: 2px solid rgb(241, 241, 241); width: 956px; border-spacing: 0px; font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px; font-variant: normal; letter-spacing: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+        <tbody style="margin: 0px; padding: 0px; line-height: 1.5; color: rgb(114, 114, 114);
+            font-style: normal; font-weight: normal;">
+            <tr class="alt" style="margin: 0px; padding: 0px; line-height: 1.5; color: rgb(114, 114, 114);
+                font-style: normal; font-weight: normal;">
+                <td nowrap style="margin: 0px; padding: 3px 5px; line-height: 1.5; color: rgb(102, 102, 102);
+                    font-style: normal; font-weight: normal; font-size: 12px; border-left-width: 2px;
+                    border-left-style: solid; border-left-color: rgb(255, 255, 255); vertical-align: top;
+                    empty-cells: show; background-color: rgb(248, 248, 248);" width="10%">
+                    Receiver Write To Queues
+                </td>
+                <td style="margin: 0px; padding: 3px 5px; line-height: 1.5; color: rgb(102, 102, 102);
+                    font-style: normal; font-weight: normal; font-size: 12px; border-left-width: 2px;
+                    border-left-style: solid; border-left-color: rgb(255, 255, 255); vertical-align: top;
+                    empty-cells: show; background-color: rgb(248, 248, 248);">
+                    <table id="tQueueList" style="margin: 3px 0px 1em; padding: 0px; line-height: 1.5;
+                        color: rgb(114, 114, 114); font-style: normal; font-weight: normal; clear: both;
+                        border-collapse: separate; border: 2px solid rgb(241, 241, 241); width: 785px;
+                        border-spacing: 0px;">
+                        <thead style="margin: 0px; padding: 0px; line-height: 1.5; color: rgb(114, 114, 114);
+                            font-style: normal; font-weight: normal;">
+                            <tr style="margin: 0px; padding: 0px; line-height: 1.5; color: rgb(114, 114, 114);
+                                font-style: normal; font-weight: normal;">
+                                <td class="style1" style="margin: 0px; padding: 3px 5px; line-height: 1.5; color: rgb(102, 102, 102);
+                                    font-style: normal; font-weight: normal; font-size: 12px; border-left-width: 2px;
+                                    border-left-style: solid; border-left-color: rgb(255, 255, 255); vertical-align: top;
+                                    empty-cells: show; width: 377px; background-color: rgb(248, 248, 248);">
+                                    Queue Name
+                                </td>
+                                <td style="margin: 0px; padding: 3px 5px; line-height: 1.5; color: rgb(102, 102, 102);
+                                    font-style: normal; font-weight: normal; font-size: 12px; border-left-width: 2px;
+                                    border-left-style: solid; border-left-color: rgb(255, 255, 255); vertical-align: top;
+                                    empty-cells: show; background-color: rgb(248, 248, 248);">
+                                    Wire Name
+                                </td>
+                                <td>
+                                    Operation
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody style="margin: 0px; padding: 0px; line-height: 1.5; color: rgb(114, 114, 114);
+                            font-style: normal; font-weight: normal;">
+                            <tr id="trTemplate" style="margin: 0px; padding: 0px; line-height: 1.5; color: rgb(114, 114, 114);
+                                font-style: normal; font-weight: normal;">
+                                <td class="style1" style="margin: 0px; padding: 3px 5px; line-height: 1.5; color: rgb(102, 102, 102);
+                                    font-style: normal; font-weight: normal; font-size: 12px; border-left-width: 2px;
+                                    border-left-style: solid; border-left-color: rgb(255, 255, 255); vertical-align: top;
+                                    empty-cells: show; width: 377px; background-color: rgb(248, 248, 248);">
+                                    <input id="txb_Q_3" name="txb_Q_3" style="margin: 0px 1px 0px 0px; padding: 0px;
+                                        line-height: 1.5; color: rgb(114, 114, 114); font-style: normal; font-weight: normal;
+                                        width: 355px;" type="text" />
+                                </td>
+                                <td style="margin: 0px; padding: 3px 5px; line-height: 1.5; color: rgb(102, 102, 102);
+                                    font-style: normal; font-weight: normal; font-size: 12px; border-left-width: 2px;
+                                    border-left-style: solid; border-left-color: rgb(255, 255, 255); vertical-align: top;
+                                    empty-cells: show; background-color: rgb(248, 248, 248);">
+                                    <input id="txb_W_3" disabled="disabled" name="txb_W_3" style="margin: 0px 1px 0px 0px;
+                                        padding: 0px; line-height: 1.5; color: rgb(114, 114, 114); font-style: normal;
+                                        font-weight: normal; width: 355px;" type="text" />
+                                </td>
+                                <td>
+                                    <input id="btnRemoveRow" type="button" value="Delele" onclick="removeRow(this.parentNode.parentNode)" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input id="btnAddRow" type="button" value="Add Row" onclick="addRow()" />
+                    <input id="btnSave" type="button" value="Save" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
