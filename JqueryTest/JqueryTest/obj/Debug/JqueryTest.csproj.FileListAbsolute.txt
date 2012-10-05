@@ -5,3 +5,10 @@ D:\Project学习\JQueryTest\JqueryTest\JqueryTest\bin\EntityFramework.xml
 D:\Project学习\JQueryTest\JqueryTest\JqueryTest\obj\Debug\ResolveAssemblyReference.cache
 D:\Project学习\JQueryTest\JqueryTest\JqueryTest\obj\Debug\JqueryTest.dll
 D:\Project学习\JQueryTest\JqueryTest\JqueryTest\obj\Debug\JqueryTest.pdb
+D:\KBag\JqueryTest\JqueryTest\bin\JqueryTest.dll
+D:\KBag\JqueryTest\JqueryTest\bin\JqueryTest.pdb
+D:\KBag\JqueryTest\JqueryTest\bin\EntityFramework.dll
+D:\KBag\JqueryTest\JqueryTest\bin\EntityFramework.xml
+D:\KBag\JqueryTest\JqueryTest\obj\Debug\ResolveAssemblyReference.cache
+D:\KBag\JqueryTest\JqueryTest\obj\Debug\JqueryTest.dll
+D:\KBag\JqueryTest\JqueryTest\obj\Debug\JqueryTest.pdb
