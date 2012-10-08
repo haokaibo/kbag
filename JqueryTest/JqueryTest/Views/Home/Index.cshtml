@@ -64,12 +64,12 @@
         });
         jQuery("#list").jqGrid({
             datatype: "local",
-            height: 250,
+            height: 218,
             width: 800,
             editurl: "Home/SaveItem",
             colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Flag', 'Notes', 'Actions'],
             colModel: [
-                           { name: 'id', index: 'id', width: 60, sorttype: "int" },
+                           { name: 'id', index: 'id', width: 60, sorttype: "int", visible: false },
                            { name: 'invdate', index: 'invdate', width: 90, sorttype: "date" },
                            {
                                name: 'name', index: 'name',
@@ -153,6 +153,13 @@
             jQuery("#listBottom").jqGrid('addRowData', i + 1, mydata[i]);
 
             jQuery("#list").jqGrid('addRowData', i + 1, mydata[i]);
+            jQuery("#listBottom").jqGrid('addRowData', i + 1, mydata[i]);
+        }
+        try {
+            
+            
+        } catch (e) {
+            alert(e);
         }
     });
 </script>
