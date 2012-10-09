@@ -156,8 +156,8 @@
             jQuery("#listBottom").jqGrid('addRowData', i + 1, mydata[i]);
         }
         try {
-            
-            
+            // hide the header of the company list grid
+            $("#gview_listBottom > div.ui-jqgrid-hdiv").hide();
         } catch (e) {
             alert(e);
         }
