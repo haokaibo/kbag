@@ -21,25 +21,89 @@
         .bottom
         {
         }
-        .inputBox
+        .inputMultilineBox
         {
             width: 99%;
             height: 100px;
             margin: 2px 2px;
         }
+        .inputBox
+        {
+            width: 400px;
+        }
     </style>
     <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
     <script type="text/javascript">
+        function copyToClipboardCrossbrowser(s) {
+            s = document.getElementById(s).value;
+
+            if (window.clipboardData && clipboardData.setData) {
+                clipboardData.setData("Text", s);
+            }
+            else {
+                // You have to sign the code to enable this or allow the action in about:config by changing
+                //user_pref("signed.applets.codebase_principal_support", true);
+                netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
+
+                var clip = Components.classes["@mozilla.org/widget/clipboard;1"].createInstance(Components.interfaces.nsIClipboard);
+                if (!clip) return;
+
+                // create a transferable
+
+                var trans = Components.classes["@mozilla.org/widget/transferable;1"].createInstance(Components.interfaces.nsITransferable);
+                if (!trans) return;
+
+                // specify the data we wish to handle. Plaintext in this case.
+                trans.addDataFlavor('text/unicode');
+
+                // To get the data from the transferable we need two new objects
+                var str = new Object();
+                var len = new Object();
+
+                var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+
+                str.data = s;
+
+                trans.setTransferData("text/unicode", str, str.data.length * 2);
+
+                var clipid = Components.interfaces.nsIClipboard;
+                if (!clip) return false;
+                clip.setData(trans, null, clipid.kGlobalClipboard);
+            }
+            alert("Copied to clipboard!");
+        }
+
         $(function ($) {
             // define the button convert click logic
             $("#btnConvert").click(function (eventData) {
                 var sql = $("#txtSQL").val();
-                var wrapper = $("#txtWrapper").val();
-                var formatted = wrapper + '(@"' + sql + '");'
+                var formmaterStr = $("#txtformmater").val();
+                var formatted = formmaterStr.replace("$(targetString)", sql);
                 $("#txtFormatted").val(formatted);
             });
-            // 
+            // define the button inverse convert click logic
+            $("#btnInverseConvert").click(function (eventData) {
+                var formattedStr = $("#txtFormatted").val();
+                var targetStringPlaceholder = "$(targetString)";
+                //                formatter = formatter.substr(0, formatter.indexOf(targetStringPlaceholder)).replace("(", "\\(")
+                //                            + "(.|\\n)+"
+                //                            + formatter.substr(formatter.indexOf(targetStringPlaceholder) + targetStringPlaceholder.length).replace(")", "\\)");
+                var re = /\"[^\"]+\"/gm; // new RegExp('\"[^\"]+\"', 'gm');
+                var matchResult = re.exec(formattedStr);
+                var sql = formattedStr;
+                if (null != sql && null != sql[0]) {
+                    var firstResult = matchResult[0];
+                    sql = firstResult.substr(firstResult.indexOf("\"") + 1).substr(0, firstResult.lastIndexOf("\"") - 1);
+                }
+                $("#txtSQL").val(sql);
+            });
+
+            // define the button CopyToClipboard click logic
+            $("#btnCopyToClipboard").click(function (eventData) {
+                copyToClipboardCrossbrowser("txtFormatted");
+            });
         });
+
 
     </script>
 </head>
@@ -49,17 +113,18 @@
             SQL Formatter</h2>
         <div class="top">
             SQL:
-            <textarea id="txtSQL" rows="5" cols="20" class="inputBox">select * from storyMain
+            <textarea id="txtSQL" rows="5" cols="20" class="inputMultilineBox">select * from storyMain 
 where id ='1'</textarea>
         </div>
         <div class="middle">
-            <input type="text" id="txtWrapper" value="sb.Append" />
+            <input type="text" id="txtformmater" class="inputBox" value="sb.Append(@&quot;$(targetString)&quot;);" />
             <input type="button" value="Convert" id="btnConvert" />
             <input type="button" value="InverseConvert" id="btnInverseConvert" />
         </div>
         <div class="bottom">
             Formatted:
-            <textarea id="txtFormatted" rows="5" cols="20" class="inputBox"></textarea>
+            <textarea id="txtFormatted" rows="5" cols="20" class="inputMultilineBox"></textarea>
+            <input type="button" id="btnCopyToClipboard" value="Copy To Clipboard" />
         </div>
     </div>
 </body>
