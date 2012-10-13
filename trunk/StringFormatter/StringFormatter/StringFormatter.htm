@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>String Formatter</title>
+    <style type="text/css">
+        .main, .top, .middle, .bottom
+        {
+            border: 1px solid red;
+        }
+        .main
+        {
+            margin: 0 auto;
+            width: 95%;
+        }
+        .top
+        {
+        }
+        .middle
+        {
+        }
+        .bottom
+        {
+        }
+        .inputBox
+        {
+            width: 99%;
+            height: 100px;
+            margin: 2px 2px;
+        }
+    </style>
+    <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function ($) {
+            // define the button convert click logic
+            $("#btnConvert").click(function (eventData) {
+                var sql = $("#txtSQL").val();
+                var wrapper = $("#txtWrapper").val();
+                var formatted = wrapper + '(@"' + sql + '");'
+                $("#txtFormatted").val(formatted);
+            });
+            // 
+        });
+
+    </script>
+</head>
+<body>
+    <div class="main">
+        <h2>
+            SQL Formatter</h2>
+        <div class="top">
+            SQL:
+            <textarea id="txtSQL" rows="5" cols="20" class="inputBox">select * from storyMain
+where id ='1'</textarea>
+        </div>
+        <div class="middle">
+            <input type="text" id="txtWrapper" value="sb.Append" />
+            <input type="button" value="Convert" id="btnConvert" />
+            <input type="button" value="InverseConvert" id="btnInverseConvert" />
+        </div>
+        <div class="bottom">
+            Formatted:
+            <textarea id="txtFormatted" rows="5" cols="20" class="inputBox"></textarea>
+        </div>
+    </div>
+</body>
+</html>
