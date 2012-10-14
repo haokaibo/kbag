@@ -2,10 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>String Formatter</title>
+    <link href="Controls/jquery-ui-1.8.24.custom/css/smoothness/jquery-ui-1.8.24.custom.css"
+        rel="stylesheet" type="text/css" />
     <style type="text/css">
         .main, .top, .middle, .bottom
         {
-            border: 1px solid red;
+           <!-- border: 1px solid red;-->
         }
         .main
         {
@@ -33,7 +35,27 @@
         }
     </style>
     <script src="Scripts/jquery-1.8.2.js" type="text/javascript"></script>
+    <script src="Controls/jquery-ui-1.8.24.custom/js/jquery.effects.core.js" type="text/javascript"></script>
+    <script src="Controls/jquery-ui-1.8.24.custom/js/jquery.effects.highlight.js" type="text/javascript"></script>
     <script type="text/javascript">
+        // run the currently selected effect
+        function showMsg(msg) {
+            // get effect type from 
+            var selectedEffect = "highlight";
+
+            // most effect types need no options passed by default
+            var options = {};
+            // run the effect
+            $("#msg").text(msg).hide(selectedEffect, options, 2000, callback);
+        };
+
+        // callback function to bring a hidden box back
+        function callback() {
+            //            setTimeout(function () {
+            //                $("#msg").removeAttr("style").hide().fadeIn();
+            //            }, 1000);
+        };
+
         function copyToClipboardCrossbrowser(s) {
             s = document.getElementById(s).value;
 
@@ -70,39 +92,100 @@
                 if (!clip) return false;
                 clip.setData(trans, null, clipid.kGlobalClipboard);
             }
-            alert("Copied to clipboard!");
         }
 
         $(function ($) {
             // define the button convert click logic
             $("#btnConvert").click(function (eventData) {
-                var sql = $("#txtSQL").val();
-                var formmaterStr = $("#txtformmater").val();
-                var formatted = formmaterStr.replace("$(targetString)", sql);
-                $("#txtFormatted").val(formatted);
+                try {
+                    var sql = $("#txtSQL").val();
+                    var formmaterStr = $("#txtFormatter").val();
+                    var formatted = "";
+                    if (!formmaterStr || formmaterStr.indexOf("$(targetString)") == -1) {
+                        formatted = sql;
+                    }
+                    if (!$("#cbMultiline").attr("checked")) {
+                        var sqls = sql.split("\n");
+                        var lineCount = sqls.length;
+                        for (var i = 0; i < lineCount; i++) {
+                            formatted += formmaterStr.replace("$(targetString)", sqls[i]) + "\n";
+                        }
+                    }
+                    else formatted = formmaterStr.replace("$(targetString)", sql);
+                    $("#txtFormatted").val(formatted);
+                } catch (e) {
+                    alert(e);
+                }
+                showMsg("Finished Formmating!");
+                $("#txtFormatted").focus();
             });
             // define the button inverse convert click logic
             $("#btnInverseConvert").click(function (eventData) {
-                var formattedStr = $("#txtFormatted").val();
-                var targetStringPlaceholder = "$(targetString)";
-                //                formatter = formatter.substr(0, formatter.indexOf(targetStringPlaceholder)).replace("(", "\\(")
-                //                            + "(.|\\n)+"
-                //                            + formatter.substr(formatter.indexOf(targetStringPlaceholder) + targetStringPlaceholder.length).replace(")", "\\)");
-                var re = /\"[^\"]+\"/gm; // new RegExp('\"[^\"]+\"', 'gm');
-                var matchResult = re.exec(formattedStr);
-                var sql = formattedStr;
-                if (null != sql && null != sql[0]) {
-                    var firstResult = matchResult[0];
-                    sql = firstResult.substr(firstResult.indexOf("\"") + 1).substr(0, firstResult.lastIndexOf("\"") - 1);
+                try {
+                    var formattedStr = $("#txtFormatted").val();
+                    var formmaterStr = $("#txtFormatter").val();
+                    var targetStringPlaceholder = "$(targetString)";
+                    var formmaterBegin = formmaterStr.substr(0, formmaterStr.indexOf(targetStringPlaceholder));
+                    var formmaterEnd = formmaterStr.substr(formmaterStr.indexOf(targetStringPlaceholder) + targetStringPlaceholder.length);
+                    //                formatter = formatter.substr(0, formatter.indexOf(targetStringPlaceholder)).replace("(", "\\(")
+                    //                            + "(.|\\n)+"
+                    //                            + formatter.substr(formatter.indexOf(targetStringPlaceholder) + targetStringPlaceholder.length).replace(")", "\\)");
+                    var reMultiline = /\"[^\"]+\"/gm; // new RegExp('\"[^\"]+\"', 'gm');
+                    var matchResult;
+                    var sql = "";
+                    var firstPart = "";
+                    if (null != sql) {
+                        var firstResult = "";
+                        if (!$("#cbMultiline").attr("checked")) {
+                            var formattedStrings = formattedStr.split("\n");
+                            var formattedStringsCount = formattedStrings.length;
+                            var sqlLines = [];
+                            for (var i = 0; i < formattedStringsCount; i++) {
+                                if ("" == formattedStrings[i]) {
+                                    continue;
+                                }
+                                firstPart = formattedStrings[i].substr(formattedStrings[i].indexOf(formmaterBegin) + formmaterBegin.length);
+                                sqlLines[i] = firstPart.substr(0, firstPart.lastIndexOf(formmaterEnd))
+                            }
+                            sql = sqlLines.join("\n");
+                        }
+                        else {
+                            //                            matchResult = reMultiline.exec(formattedStr);
+                            //                            firstResult = matchResult[0];
+                            firstPart = formattedStr.substr(formattedStr.indexOf(formmaterBegin) + formmaterBegin.length);
+                            sql = firstPart.substr(0, firstPart.lastIndexOf(formmaterEnd));
+                        }
+                    }
+                    $("#txtSQL").val(sql);
+                } catch (e) {
+                    alert(e);
                 }
-                $("#txtSQL").val(sql);
+                showMsg("Finished Inverse formmating !");
+                $("#txtSQL").focus();
             });
 
-            // define the button CopyToClipboard click logic
-            $("#btnCopyToClipboard").click(function (eventData) {
+            // define the button CopyFormattedToClipboard click logic
+            $("#btnCopyFormattedToClipboard").click(function (eventData) {
                 copyToClipboardCrossbrowser("txtFormatted");
+                showMsg("Copied Formatted string to clipboard!");
             });
-        });
+
+            // define the button btnCopyOriginToClipBoard click logic
+            $("#btnCopySQLToClipBoard").click(function (eventData) {
+                copyToClipboardCrossbrowser("txtSQL");
+                showMsg("Copied SQL to clipboard!");
+            });
+
+            // define the clear button click logic
+            $("#btnClearSQL").click(function (eventData) {
+                $("#txtSQL").empty();
+                showMsg("Sql cleared!");
+            })
+            $("#btnClearFormatted").click(function (eventData) {
+                $("#txtFormatted").empty();
+                showMsg("Formatted string cleared!");
+            })
+        });         // end of $(function($){});
 
 
     </script>
@@ -110,21 +193,29 @@
 <body>
     <div class="main">
         <h2>
-            SQL Formatter</h2>
+            SQL Formatter Alpha 1.0</h2>
         <div class="top">
             SQL:
             <textarea id="txtSQL" rows="5" cols="20" class="inputMultilineBox">select * from storyMain 
 where id ='1'</textarea>
+            <input type="button" id="btnCopySQLToClipBoard" value="Copy To Clipboard" /><input
+                type="button" id="btnClearSQL" value="clear" />
         </div>
         <div class="middle">
-            <input type="text" id="txtformmater" class="inputBox" value="sb.Append(@&quot;$(targetString)&quot;);" />
+            Format: <input type="text" id="txtFormatter" class="inputBox" value="sb.Append(@&quot;$(targetString)&quot;);" />
+            <input id="cbMultiline" type="checkbox" checked="checked" /><label for="cbMultiline">Multiline</label>
             <input type="button" value="Convert" id="btnConvert" />
             <input type="button" value="InverseConvert" id="btnInverseConvert" />
         </div>
         <div class="bottom">
             Formatted:
             <textarea id="txtFormatted" rows="5" cols="20" class="inputMultilineBox"></textarea>
-            <input type="button" id="btnCopyToClipboard" value="Copy To Clipboard" />
+            <input type="button" id="btnCopyFormattedToClipboard" value="Copy To Clipboard" /><input
+                type="button" id="btnClearFormatted" value="clear" />
+        </div>
+        <div class="status">
+            <div id="msg" class="ui-widget-content ui-corner-all">
+            </div>
         </div>
     </div>
 </body>
