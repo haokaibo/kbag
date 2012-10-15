@@ -10,6 +10,7 @@ namespace JqueryTest.Controllers
     {
         public ActionResult Index()
         {
+            //Request.InputStream
             ViewBag.Message = "Welcome to ASP.NET MVC!";
 
             return View();
@@ -20,11 +21,17 @@ namespace JqueryTest.Controllers
             return View();
         }
 
-        public ActionResult SaveItem(string viewParam){
+        public ActionResult SaveItem(string viewParam)
+        {
             var viewData = this.ViewData;
             var a = ViewBag;
             return null;
         }
-        
+
+        public ActionResult TestJsonPost(string reqJson)
+        {
+            return new JsonResult() { Data = "success" };
+        }
+
     }
 }
