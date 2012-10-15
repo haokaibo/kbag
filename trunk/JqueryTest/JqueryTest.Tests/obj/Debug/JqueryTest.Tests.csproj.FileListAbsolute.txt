@@ -6,3 +6,11 @@ D:\Project学习\JQueryTest\JqueryTest\JqueryTest.Tests\bin\Debug\JqueryTest.pdb
 D:\Project学习\JQueryTest\JqueryTest\JqueryTest.Tests\obj\Debug\ResolveAssemblyReference.cache
 D:\Project学习\JQueryTest\JqueryTest\JqueryTest.Tests\obj\Debug\JqueryTest.Tests.dll
 D:\Project学习\JQueryTest\JqueryTest\JqueryTest.Tests\obj\Debug\JqueryTest.Tests.pdb
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\bin\Debug\JqueryTest.Tests.dll.config
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\bin\Debug\JqueryTest.Tests.dll
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\bin\Debug\JqueryTest.Tests.pdb
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\bin\Debug\JqueryTest.dll
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\bin\Debug\JqueryTest.pdb
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\obj\Debug\ResolveAssemblyReference.cache
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\obj\Debug\JqueryTest.Tests.dll
+D:\haokb\KBag\JqueryTest\JqueryTest.Tests\obj\Debug\JqueryTest.Tests.pdb
